@@ -45,24 +45,6 @@ class AppDrawer extends StatelessWidget {
               children: [
                 _buildDrawerItem(
                   context,
-                  icon: Icons.dashboard,
-                  title: 'Dashboard',
-                  onTap: () {
-                    Navigator.pop(context);
-                    // Navegar para dashboard
-                  },
-                ),
-                _buildDrawerItem(
-                  context,
-                  icon: Icons.gavel,
-                  title: 'Processos',
-                  onTap: () {
-                    Navigator.pop(context);
-                    // Já está na tela de processos
-                  },
-                ),
-                _buildDrawerItem(
-                  context,
                   icon: Icons.people,
                   title: 'Clientes',
                   onTap: () {
@@ -72,29 +54,11 @@ class AppDrawer extends StatelessWidget {
                 ),
                 _buildDrawerItem(
                   context,
-                  icon: Icons.folder,
-                  title: 'Documentos',
-                  onTap: () {
-                    Navigator.pop(context);
-                    // Navegar para documentos
-                  },
-                ),
-                _buildDrawerItem(
-                  context,
                   icon: Icons.calendar_today,
                   title: 'Agenda',
                   onTap: () {
                     Navigator.pop(context);
                     // Navegar para agenda
-                  },
-                ),
-                _buildDrawerItem(
-                  context,
-                  icon: Icons.analytics,
-                  title: 'Relatórios',
-                  onTap: () {
-                    Navigator.pop(context);
-                    // Navegar para relatórios
                   },
                 ),
                 const Divider(),
@@ -130,19 +94,13 @@ class AppDrawer extends StatelessWidget {
                   context,
                   icon: Icons.settings,
                   title: 'Configurações',
-                  onTap: () {
-                    Navigator.pop(context);
-                    _showConfiguracoes(context);
-                  },
+                  onTap: () {},
                 ),
                 _buildDrawerItem(
                   context,
                   icon: Icons.help,
                   title: 'Ajuda',
-                  onTap: () {
-                    Navigator.pop(context);
-                    _showAjuda(context);
-                  },
+                  onTap: () {},
                 ),
                 _buildDrawerItem(
                   context,
@@ -197,54 +155,6 @@ class AppDrawer extends StatelessWidget {
       leading: Icon(icon, color: Theme.of(context).primaryColor),
       title: Text(title),
       onTap: onTap,
-    );
-  }
-
-  void _showConfiguracoes(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Configurações'),
-          content: const Text(
-            'Funcionalidade em desenvolvimento.\n\n'
-            '• Dados pessoais\n'
-            '• Preferências do sistema\n'
-            '• Backup e sincronização',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Fechar'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _showAjuda(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Ajuda'),
-          content: const Text(
-            'Como usar o Advoguei:\n\n'
-            '1. Use a aba "Processos" para gerenciar seus processos\n'
-            '2. Clique em "Novo Processo" para cadastrar\n'
-            '3. Use as outras abas para acessar clientes, documentos e relatórios\n'
-            '4. O menu lateral oferece funcionalidades avançadas\n\n'
-            'Para suporte técnico, entre em contato conosco.',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Entendi'),
-            ),
-          ],
-        );
-      },
     );
   }
 

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+
 import '../widgets/app_drawer.dart';
 import 'process_list_screen.dart';
 
-class InitialScreen extends StatefulWidget {
-  const InitialScreen({super.key});
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
 
   @override
-  State<InitialScreen> createState() => _InitialScreenState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _InitialScreenState extends State<InitialScreen> {
+class _MainScreenState extends State<MainScreen> {
   int _selectedPageIndex = 0;
 
   void _selectPage(int index) {

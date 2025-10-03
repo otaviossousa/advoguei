@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/process.dart';
+
+import '../models/process_model.dart';
 
 class ProcessCard extends StatelessWidget {
   final Process processo;
@@ -47,7 +48,7 @@ class ProcessCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              
+
               // Número do processo
               Text(
                 processo.numero,

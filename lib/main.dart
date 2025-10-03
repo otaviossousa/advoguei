@@ -15,7 +15,7 @@ class AdvogueApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      initialRoute: AppRoutes.initialScreen,
+      initialRoute: AppRoutes.mainScreen,
       routes: AppRoutes.routes,
     );
   }
