@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../utils/theme.dart';
 
+import '../utils/routes.dart';
+
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
 
@@ -111,6 +113,15 @@ class AppDrawer extends StatelessWidget {
                   onTap: () {
                     Navigator.pop(context);
                     _showSobre(context);
+                  },
+                ),
+                _buildDrawerItem(
+                  context,
+                  icon: Icons.info,
+                  title: 'Desenvolvedores',
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed(AppRoutes.aboutScreen);
                   },
                 ),
               ],
