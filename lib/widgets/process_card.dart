@@ -25,7 +25,6 @@ class ProcessCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Status do processo
               Align(
                 alignment: Alignment.centerLeft,
                 child: Container(
@@ -49,7 +48,6 @@ class ProcessCard extends StatelessWidget {
               ),
               const SizedBox(height: 8),
 
-              // Número do processo
               Text(
                 processo.numero,
                 style: const TextStyle(

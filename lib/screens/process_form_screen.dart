@@ -17,7 +17,7 @@ class ProcessFormScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Seção 1: Informações Básicas
+            // Informações Básicas
             const SectionTitle(title: 'Informações Básicas'),
             const SizedBox(height: 16),
             const CustomTextFormField(
@@ -51,7 +51,7 @@ class ProcessFormScreen extends StatelessWidget {
 
             const SizedBox(height: 32),
 
-            // Seção 2: Detalhes do Processo
+            // Detalhes do Processo
             const SectionTitle(title: 'Detalhes do Processo'),
             const SizedBox(height: 16),
             const CustomTextFormField(
@@ -82,7 +82,7 @@ class ProcessFormScreen extends StatelessWidget {
 
             const SizedBox(height: 32),
 
-            // Seção 3: Documentos
+            // Documentos
             const SectionTitle(title: 'Documentos'),
             const SizedBox(height: 16),
 
@@ -155,7 +155,7 @@ class ProcessFormScreen extends StatelessWidget {
 
             const SizedBox(height: 32),
 
-            // Seção 4: Observações
+            // Observações
             const SectionTitle(title: 'Observações'),
             const SizedBox(height: 16),
             const CustomTextFormField(

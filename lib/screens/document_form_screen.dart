@@ -29,7 +29,7 @@ class DocumentFormScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Seção 1: Anexar Documento
+            // Anexar Documento
             const SectionTitle(title: 'Anexar Documento'),
             const SizedBox(height: 16),
             CustomDocumentCard(
@@ -40,7 +40,7 @@ class DocumentFormScreen extends StatelessWidget {
             ),
             const SizedBox(height: 24),
 
-            // Seção 2: Informações do Documento
+            // Informações do Documento
             const SectionTitle(title: 'Informações do Documento'),
             const SizedBox(height: 16),
             const CustomTextFormField(
@@ -78,7 +78,6 @@ class DocumentFormScreen extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Botão não faz nada - permanece na mesma página
                 },
                 child: const Text('Adicionar Documento'),
               ),

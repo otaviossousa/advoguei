@@ -3,14 +3,11 @@ import 'package:flutter/material.dart';
 class AppTheme {
   // Cores principais do app
   static const Color primaryBlue = Color(0xFF1565C0);
-  static const Color primaryDarkBlue = Color(0xFF0D47A1);
   static const Color accentGold = Color(0xFFFFB300);
-  static const Color backgroundLight = Color(0xFFF8F9FA);
   static const Color surfaceWhite = Colors.white;
   static const Color textDark = Color(0xFF212529);
   static const Color textGray = Color(0xFF6C757D);
   static const Color errorRed = Color(0xFFD32F2F);
-  static const Color successGreen = Color(0xFF388E3C);
 
   static ThemeData get lightTheme {
     return ThemeData(
@@ -21,7 +18,6 @@ class AppTheme {
         primary: primaryBlue,
         secondary: accentGold,
         surface: surfaceWhite,
-        background: backgroundLight,
         error: errorRed,
       ),
       appBarTheme: const AppBarTheme(

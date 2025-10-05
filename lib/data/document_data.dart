@@ -56,12 +56,4 @@ class DocumentData {
   static List<Document> getAllDocuments() {
     return List.from(_documents);
   }
-
-  static void addDocument(Document document) {
-    _documents.add(document);
-  }
-
-  static void removeDocument(String nome) {
-    _documents.removeWhere((doc) => doc.nome == nome);
-  }
 }

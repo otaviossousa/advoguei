@@ -31,7 +31,6 @@ class ProcessListScreen extends StatelessWidget {
           ),
           Expanded(
             // Lista de processos
-            // Se a lista estiver vazia:
             child: processos.isEmpty
                 ? const Center(
                     child: Column(
@@ -51,7 +50,6 @@ class ProcessListScreen extends StatelessWidget {
                       ],
                     ),
                   )
-            // Se houver processos, mostrar a lista:
                 : ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     itemCount: processos.length,
@@ -60,7 +58,6 @@ class ProcessListScreen extends StatelessWidget {
                       return ProcessCard(
                         processo: processo,
                         onTap: () {
-                          // Abrir detalhes do processo... falta implementar
                         },
                       );
                     },
@@ -68,7 +65,6 @@ class ProcessListScreen extends StatelessWidget {
           ),
         ],
       ),
-      // Botão flutuante para adicionar novo processo
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, AppRoutes.processFormScreen);

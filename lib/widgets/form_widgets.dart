@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../utils/theme.dart';
+
 // Widget para títulos de seção
 class SectionTitle extends StatelessWidget {
   final String title;
@@ -16,7 +18,7 @@ class SectionTitle extends StatelessWidget {
       style: const TextStyle(
         fontSize: 20,
         fontWeight: FontWeight.bold,
-        color: Color(0xFF1565C0),
+        color: AppTheme.primaryBlue,
       ),
     );
   }
@@ -162,7 +164,7 @@ class CustomDocumentCard extends StatelessWidget {
     return Card(
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: const Color(0xFF1565C0),
+          backgroundColor: AppTheme.primaryBlue,
           child: Icon(icon, color: Colors.white, size: 20),
         ),
         title: Text(
@@ -180,7 +182,6 @@ class CustomDocumentCard extends StatelessWidget {
   }
 }
 
-// Classe para dialog de seleção de documentos
 class DocumentSelectionDialog {
   static void show(BuildContext context, String documentType) {
     showDialog(

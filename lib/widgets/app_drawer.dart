@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../utils/theme.dart';
+
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
 
@@ -10,7 +12,7 @@ class AppDrawer extends StatelessWidget {
         children: [
           DrawerHeader(
             margin: EdgeInsets.zero,
-            padding: EdgeInsetsGeometry.all(16),
+            padding: EdgeInsets.all(16),
             decoration: BoxDecoration(color: Theme.of(context).primaryColor),
             child: SizedBox(
               width: double.infinity,
@@ -21,7 +23,7 @@ class AppDrawer extends StatelessWidget {
                   Icon(
                     Icons.gavel,
                     size: 35,
-                    color: Color(0xFF1565C0),
+                    color: AppTheme.primaryBlue,
                   ),
                   const SizedBox(height: 16),
                   const Text(
@@ -167,7 +169,7 @@ class AppDrawer extends StatelessWidget {
           content: const Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.gavel, size: 64, color: Color(0xFF1565C0)),
+              Icon(Icons.gavel, size: 64, color: AppTheme.primaryBlue),
               SizedBox(height: 16),
               Text(
                 'Advoguei',
