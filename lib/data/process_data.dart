@@ -23,7 +23,7 @@ class ProcessData {
     Process(
       id: '2',
       numero: '2001234-12.2023.8.26.0200',
-      cliente: 'Eline Pacheco',
+      cliente: 'Elinne Pacheco',
       cpfCnpjCliente: '987.654.321-00',
       contatoCliente: '(86) 98877-6655',
       tipo: 'Ação Cível',
@@ -54,7 +54,7 @@ class ProcessData {
     Process(
       id: '4',
       numero: '4001234-12.2023.8.26.0400',
-      cliente: 'Cauã Wesley',
+      cliente: 'Cauã Wesly',
       cpfCnpjCliente: '321.654.987-00',
       contatoCliente: '(86) 96655-4433',
       tipo: 'Ação de Família',

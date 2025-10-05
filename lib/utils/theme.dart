@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  // Cores principais para um app jurídico
+  // Cores principais do app
   static const Color primaryBlue = Color(0xFF1565C0);
   static const Color primaryDarkBlue = Color(0xFF0D47A1);
   static const Color accentGold = Color(0xFFFFB300);

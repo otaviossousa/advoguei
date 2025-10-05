@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/app_drawer.dart';
+import 'document_list_screen.dart';
 import 'process_list_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -26,26 +27,18 @@ class _MainScreenState extends State<MainScreen> {
 
     switch (_selectedPageIndex) {
       case 0:
-        activePage = const Center(
-          child: Text('Dashboard', style: TextStyle(fontSize: 24)),
-        );
-        activePageTitle = 'Dashboard';
-        break;
-      case 1:
         activePage = const ProcessListScreen();
         activePageTitle = 'Processos';
         break;
-      case 2:
-        activePage = const Center(
-          child: Text('Documentos', style: TextStyle(fontSize: 24)),
-        );
+      case 1:
+        activePage = const DocumentListScreen();
         activePageTitle = 'Documentos';
         break;
-      case 3:
+      case 2:
         activePage = const Center(
-          child: Text('Relatórios', style: TextStyle(fontSize: 24)),
+          child: Text('Agenda', style: TextStyle(fontSize: 24)),
         );
-        activePageTitle = 'Relatórios';
+        activePageTitle = 'Agenda';
         break;
       default:
         activePage = const ProcessListScreen();
@@ -72,10 +65,6 @@ class _MainScreenState extends State<MainScreen> {
         type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard),
-            label: 'Dashboard',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.gavel),
             label: 'Processos',
           ),
@@ -84,8 +73,8 @@ class _MainScreenState extends State<MainScreen> {
             label: 'Documentos',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.analytics),
-            label: 'Relatórios',
+            icon: Icon(Icons.calendar_today),
+            label: 'Agenda',
           ),
         ],
       ),

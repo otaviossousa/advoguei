@@ -54,11 +54,11 @@ class AppDrawer extends StatelessWidget {
                 ),
                 _buildDrawerItem(
                   context,
-                  icon: Icons.calendar_today,
-                  title: 'Agenda',
+                  icon: Icons.analytics,
+                  title: 'Relatórios',
                   onTap: () {
                     Navigator.pop(context);
-                    // Navegar para agenda
+                    // Navegar para relatórios
                   },
                 ),
                 const Divider(),

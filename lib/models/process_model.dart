@@ -21,6 +21,7 @@ class Process {
   // Observações
   final String? observacoes;
 
+  // CPF/CNPJ, contato, descrição, valor da causa, comarca, vara, nome do juiz e observações são opcionais
   const Process({
     required this.id,
     required this.numero,
