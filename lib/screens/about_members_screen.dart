@@ -21,7 +21,6 @@ class AboutMembersScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
-          
             const SizedBox(height: 16),
             const Text('Membros do Grupo', style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
@@ -30,11 +29,6 @@ class AboutMembersScreen extends StatelessWidget {
                   title: Text(m['name']!),
                   subtitle: Text(m['role']!),
                 )),
-            const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Voltar'),
-            ),
           ],
         ),
       ),
