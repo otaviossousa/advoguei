@@ -6,8 +6,8 @@ class Document {
   final DateTime data;
 
   // Informações de Vinculação
-  final String? clienteVinculado;
-  final String? processoVinculado;
+  final List<String>? clienteVinculado;
+  final List<String>? processoVinculado;
 
   // Detalhes Adicionais
   final String? observacao;

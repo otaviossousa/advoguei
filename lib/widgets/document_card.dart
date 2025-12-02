@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/document_model.dart';
+import 'colored_badge.dart';
 
 class DocumentCard extends StatelessWidget {
   final Document documento;
@@ -25,31 +26,14 @@ class DocumentCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Tipo do Documento
               Align(
                 alignment: Alignment.centerLeft,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    color: _getTipoColor(documento.tipo),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    documento.tipo,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                child: ColoredBadge(
+                  label: documento.tipo,
+                  kind: BadgeKind.documentType,
                 ),
               ),
               const SizedBox(height: 8),
-
-              // Nome do Documento
               Text(
                 documento.nome,
                 style: const TextStyle(
@@ -59,16 +43,17 @@ class DocumentCard extends StatelessWidget {
               ),
               const SizedBox(height: 12),
 
-              // Cliente vinculado
-              if (documento.clienteVinculado != null)
+              if (documento.clienteVinculado != null &&
+                  documento.clienteVinculado!.isNotEmpty)
                 _buildInfoRow(
                   icon: Icons.person,
                   label: 'Cliente',
-                  value: documento.clienteVinculado!,
+                  value: documento.clienteVinculado!.join(', '),
                 ),
-              if (documento.clienteVinculado != null) const SizedBox(height: 8),
+              if (documento.clienteVinculado != null &&
+                  documento.clienteVinculado!.isNotEmpty)
+                const SizedBox(height: 8),
 
-              // Data
               _buildInfoRow(
                 icon: Icons.calendar_today,
                 label: 'Data',
@@ -76,17 +61,25 @@ class DocumentCard extends StatelessWidget {
               ),
               const SizedBox(height: 8),
 
-              // Processo vinculado
-              if (documento.processoVinculado != null)
-                _buildInfoRow(
-                  icon: Icons.gavel,
-                  label: 'Processo',
-                  value: documento.processoVinculado!,
+              if (documento.processoVinculado != null &&
+                  documento.processoVinculado!.isNotEmpty)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: documento.processoVinculado!.map((procNumero) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 6),
+                      child: _buildInfoRow(
+                        icon: Icons.gavel,
+                        label: 'Processo',
+                        value: procNumero,
+                      ),
+                    );
+                  }).toList(),
                 ),
-              if (documento.processoVinculado != null)
+              if (documento.processoVinculado != null &&
+                  documento.processoVinculado!.isNotEmpty)
                 const SizedBox(height: 8),
 
-              // Observação
               if (documento.observacao != null &&
                   documento.observacao!.isNotEmpty)
                 _buildInfoRow(
@@ -122,27 +115,5 @@ class DocumentCard extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  Color _getTipoColor(String tipo) {
-    switch (tipo.toLowerCase()) {
-      case 'identificação':
-        return Colors.blue;
-      case 'contrato/acordo':
-        return Colors.green;
-      case 'procuração':
-        return Colors.orange;
-      case 'petição/manifestação':
-        return Colors.purple;
-      case 'decisão judicial/sentença':
-        return Colors.red;
-      case 'comprovante':
-        return Colors.teal;
-      case 'laudo/parecer':
-        return Colors.brown;
-      case 'outros':
-      default:
-        return Colors.grey;
-    }
   }
 }
