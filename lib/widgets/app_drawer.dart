@@ -1,5 +1,5 @@
 import 'package:advoguei/providers/theme_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/theme.dart';
@@ -13,7 +13,9 @@ class AppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    final listIconColor = isDark ? Colors.lightBlueAccent : Theme.of(context).primaryColor;
+    final listIconColor = isDark
+        ? Colors.lightBlueAccent
+        : Theme.of(context).primaryColor;
 
     return Drawer(
       child: Column(
@@ -74,19 +76,20 @@ class AppDrawer extends StatelessWidget {
                   },
                 ),
                 const Divider(),
-                Consumer<ThemeProvider>(
-                  builder: (context, themeProvider, child) {
+                Consumer(
+                  builder: (context, ref, child) {
+                    final themeNotifier = ref.watch(themeProvider.notifier);
+                    final isDarkMode =
+                        ref.watch(themeProvider) == ThemeMode.dark;
                     return SwitchListTile(
                       title: const Text('Modo Escuro'),
                       secondary: Icon(
-                        themeProvider.isDarkMode
-                            ? Icons.dark_mode
-                            : Icons.light_mode,
+                        isDarkMode ? Icons.dark_mode : Icons.light_mode,
                         color: listIconColor,
                       ),
-                      value: themeProvider.isDarkMode,
+                      value: isDarkMode,
                       onChanged: (bool value) {
-                        themeProvider.toggleTheme(value);
+                        themeNotifier.toggleTheme(value);
                       },
                     );
                   },
