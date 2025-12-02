@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/document_data.dart';
 import '../models/document_model.dart';
 import '../widgets/document_card.dart';
+import 'document_detail_screen.dart';
 import 'document_form_screen.dart';
 
 class DocumentListScreen extends StatelessWidget {
@@ -45,7 +46,15 @@ class DocumentListScreen extends StatelessWidget {
                       final doc = documents[index];
                       return DocumentCard(
                         documento: doc,
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  DocumentDetailScreen(documento: doc),
+                            ),
+                          );
+                        },
                       );
                     },
                   ),
