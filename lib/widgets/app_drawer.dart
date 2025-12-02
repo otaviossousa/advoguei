@@ -1,10 +1,9 @@
 import 'package:advoguei/providers/theme_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-
-import '../utils/theme.dart';
+import 'package:provider/provider.dart';
 
 import '../utils/routes.dart';
+import '../utils/theme.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -13,7 +12,9 @@ class AppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    final listIconColor = isDark ? Colors.lightBlueAccent : Theme.of(context).primaryColor;
+    final listIconColor = isDark
+        ? Colors.lightBlueAccent
+        : Theme.of(context).primaryColor;
 
     return Drawer(
       child: Column(
@@ -77,7 +78,9 @@ class AppDrawer extends StatelessWidget {
                 Consumer<ThemeProvider>(
                   builder: (context, themeProvider, child) {
                     return SwitchListTile(
-                      title: const Text('Modo Escuro'),
+                      title: Text(
+                        themeProvider.isDarkMode ? 'Modo Escuro' : 'Modo Claro',
+                      ),
                       secondary: Icon(
                         themeProvider.isDarkMode
                             ? Icons.dark_mode
