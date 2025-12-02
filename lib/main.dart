@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'utils/routes.dart';
 import 'utils/theme.dart';
@@ -7,34 +7,29 @@ import 'providers/theme_provider.dart';
 
 void main() {
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => ThemeProvider()),
-      ],
-      child: const AdvogueApp(),
+    const ProviderScope(
+      child: AdvogueApp(),
     ),
   );
 }
 
-class AdvogueApp extends StatelessWidget {
+class AdvogueApp extends ConsumerWidget {
   const AdvogueApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Consumer<ThemeProvider>(
-      builder: (context, themeProvider, child) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Advoguei',
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeProvider);
 
-          themeMode: themeProvider.themeMode,
-          theme: AppTheme.lightTheme,
-          darkTheme: AppTheme.darkTheme,
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Advoguei',
 
-          initialRoute: AppRoutes.mainScreen,
-          routes: AppRoutes.routes,
-        );
-      },
+      themeMode: themeMode,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+
+      initialRoute: AppRoutes.mainScreen,
+      routes: AppRoutes.routes,
     );
   }
 }
