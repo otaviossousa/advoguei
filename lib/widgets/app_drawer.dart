@@ -1,10 +1,10 @@
 import 'package:advoguei/providers/theme_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-
-import '../utils/theme.dart';
+import 'package:provider/provider.dart';
 
 import '../utils/routes.dart';
+import '../utils/theme.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -82,7 +82,9 @@ class AppDrawer extends StatelessWidget {
                     final isDarkMode =
                         ref.watch(themeProvider) == ThemeMode.dark;
                     return SwitchListTile(
-                      title: const Text('Modo Escuro'),
+                      title: Text(
+                        themeProvider.isDarkMode ? 'Modo Escuro' : 'Modo Claro',
+                      ),
                       secondary: Icon(
                         isDarkMode ? Icons.dark_mode : Icons.light_mode,
                         color: listIconColor,

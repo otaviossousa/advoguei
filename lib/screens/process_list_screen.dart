@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../data/process_data.dart';
 import '../utils/routes.dart';
 import '../widgets/process_card.dart';
@@ -58,6 +59,11 @@ class ProcessListScreen extends StatelessWidget {
                       return ProcessCard(
                         processo: processo,
                         onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.processDetailScreen,
+                            arguments: processo,
+                          );
                         },
                       );
                     },

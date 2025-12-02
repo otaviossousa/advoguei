@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/process_model.dart';
+import 'colored_badge.dart';
 
 class ProcessCard extends StatelessWidget {
   final Process processo;
@@ -27,23 +28,9 @@ class ProcessCard extends StatelessWidget {
             children: [
               Align(
                 alignment: Alignment.centerLeft,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    color: _getStatusColor(processo.status),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    processo.status,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                child: ColoredBadge(
+                  label: processo.status,
+                  kind: BadgeKind.status,
                 ),
               ),
               const SizedBox(height: 8),
@@ -57,7 +44,6 @@ class ProcessCard extends StatelessWidget {
               ),
               const SizedBox(height: 12),
 
-              // Informações do processo
               _buildInfoRow(
                 icon: Icons.person,
                 label: 'Cliente',
@@ -115,22 +101,5 @@ class ProcessCard extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  Color _getStatusColor(String status) {
-    switch (status.toLowerCase()) {
-      case 'em andamento':
-        return Colors.blue;
-      case 'aguardando sentença':
-        return Colors.orange;
-      case 'concluído':
-        return Colors.green;
-      case 'suspenso':
-        return Colors.red;
-      case 'arquivado':
-        return Colors.grey;
-      default:
-        return Colors.grey;
-    }
   }
 }
