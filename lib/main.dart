@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'providers/theme_provider.dart';
 import 'utils/routes.dart';
 import 'utils/theme.dart';
-import 'providers/theme_provider.dart';
 
 void main() {
   runApp(
@@ -23,12 +23,10 @@ class AdvogueApp extends ConsumerWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Advoguei',
-
       themeMode: themeMode,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-
-      initialRoute: AppRoutes.mainScreen,
+      initialRoute: AppRoutes.loginScreen,
       routes: AppRoutes.routes,
     );
   }

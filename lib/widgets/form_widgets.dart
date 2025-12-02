@@ -52,22 +52,63 @@ class CustomTextFormField extends StatelessWidget {
   final String? hint;
   final int maxLines;
   final bool readOnly;
+  final TextEditingController? controller;
+  final String? Function(String?)? validator;
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
+  final bool obscureText;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+  final void Function(String)? onFieldSubmitted;
 
   const CustomTextFormField({
     super.key,
     required this.label,
     this.hint,
     this.maxLines = 1,
-    this.readOnly = true,
+    this.readOnly = false,
+    this.controller,
+    this.validator,
+    this.keyboardType,
+    this.textInputAction,
+    this.obscureText = false,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.onFieldSubmitted,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return TextFormField(
+      controller: controller,
+      validator: validator,
+      keyboardType: keyboardType,
+      textInputAction: textInputAction,
+      obscureText: obscureText,
+      onFieldSubmitted: onFieldSubmitted,
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
-        border: const OutlineInputBorder(),
+        prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(
+            color: theme.colorScheme.outline,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(
+            color: theme.colorScheme.primary,
+            width: 2,
+          ),
+        ),
       ),
       maxLines: maxLines,
       readOnly: readOnly,
@@ -222,6 +263,87 @@ class DocumentSelectionDialog {
             ),
           ],
         );
+      },
+    );
+  }
+}
+
+// Widget para botão customizado com loading
+class CustomButton extends StatelessWidget {
+  final String text;
+  final VoidCallback? onPressed;
+  final bool isLoading;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
+  final double? height;
+
+  const CustomButton({
+    super.key,
+    required this.text,
+    this.onPressed,
+    this.isLoading = false,
+    this.backgroundColor,
+    this.foregroundColor,
+    this.height = 50,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return SizedBox(
+      height: height,
+      child: ElevatedButton(
+        onPressed: isLoading ? null : onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: backgroundColor ?? theme.colorScheme.primary,
+          foregroundColor: foregroundColor ?? Colors.white,
+          disabledBackgroundColor: theme.colorScheme.outline,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+        child: isLoading
+            ? const SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              )
+            : Text(
+                text,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+      ),
+    );
+  }
+}
+
+// Widget para logo da tela de login
+class LoginLogo extends StatelessWidget {
+  final String logoPath;
+  final double height;
+
+  const LoginLogo({
+    super.key,
+    required this.logoPath,
+    this.height = 180,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset(
+      logoPath,
+      height: height,
+      fit: BoxFit.contain,
+      errorBuilder: (context, error, stackTrace) {
+        // Se a logo não carregar, retorna espaço vazio
+        return SizedBox(height: height);
       },
     );
   }

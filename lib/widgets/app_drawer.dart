@@ -1,16 +1,15 @@
-import 'package:advoguei/providers/theme_provider.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../providers/theme_provider.dart';
 import '../utils/routes.dart';
 import '../utils/theme.dart';
 
-class AppDrawer extends StatelessWidget {
+class AppDrawer extends ConsumerWidget {
   const AppDrawer({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final listIconColor = isDark
@@ -76,14 +75,15 @@ class AppDrawer extends StatelessWidget {
                   },
                 ),
                 const Divider(),
-                Consumer(
-                  builder: (context, ref, child) {
+                // Theme toggle
+                Builder(
+                  builder: (context) {
                     final themeNotifier = ref.watch(themeProvider.notifier);
                     final isDarkMode =
                         ref.watch(themeProvider) == ThemeMode.dark;
                     return SwitchListTile(
                       title: Text(
-                        themeProvider.isDarkMode ? 'Modo Escuro' : 'Modo Claro',
+                        isDarkMode ? 'Modo Escuro' : 'Modo Claro',
                       ),
                       secondary: Icon(
                         isDarkMode ? Icons.dark_mode : Icons.light_mode,
@@ -171,21 +171,38 @@ class AppDrawer extends StatelessWidget {
               children: [
                 Icon(Icons.person, color: Colors.grey[600]),
                 const SizedBox(width: 12),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Dr. Advogueido',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey[800],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Dr. Advogueido',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey[800],
+                        ),
                       ),
-                    ),
-                    Text(
-                      'OAB/PI 123.456',
-                      style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                    ),
-                  ],
+                      Text(
+                        'OAB/PI 123.456',
+                        style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                      ),
+                    ],
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(
+                    Icons.logout,
+                    color: Colors.grey[600],
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      AppRoutes.loginScreen,
+                      (route) => false,
+                    );
+                  },
+                  tooltip: 'Sair',
                 ),
               ],
             ),
