@@ -21,33 +21,15 @@ class AppDrawer extends ConsumerWidget {
         children: [
           DrawerHeader(
             margin: EdgeInsets.zero,
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.zero,
             decoration: BoxDecoration(color: Theme.of(context).primaryColor),
-            child: SizedBox(
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.gavel,
-                    size: 35,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Advoguei',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const Text(
-                    'Gestão Jurídica',
-                    style: TextStyle(color: Colors.white70, fontSize: 14),
-                  ),
-                ],
+            child: Center(
+              child: Image.asset(
+                'assets/images/logo-sem-fundo-advoguei.png',
+                width: double.infinity,
+                height: double.infinity,
+                fit: BoxFit.cover,
+                color: Colors.white,
               ),
             ),
           ),
