@@ -1,3 +1,5 @@
+import 'package:advoguei/providers/theme_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/theme.dart';
@@ -9,6 +11,10 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final listIconColor = isDark ? Colors.lightBlueAccent : Theme.of(context).primaryColor;
+
     return Drawer(
       child: Column(
         children: [
@@ -25,7 +31,7 @@ class AppDrawer extends StatelessWidget {
                   Icon(
                     Icons.gavel,
                     size: 35,
-                    color: AppTheme.primaryBlue,
+                    color: Colors.white,
                   ),
                   const SizedBox(height: 16),
                   const Text(
@@ -51,6 +57,7 @@ class AppDrawer extends StatelessWidget {
                   context,
                   icon: Icons.people,
                   title: 'Clientes',
+                  iconColor: listIconColor,
                   onTap: () {
                     Navigator.pop(context);
                     // Navegar para clientes
@@ -60,16 +67,35 @@ class AppDrawer extends StatelessWidget {
                   context,
                   icon: Icons.analytics,
                   title: 'Relatórios',
+                  iconColor: listIconColor,
                   onTap: () {
                     Navigator.pop(context);
                     // Navegar para relatórios
                   },
                 ),
                 const Divider(),
+                Consumer<ThemeProvider>(
+                  builder: (context, themeProvider, child) {
+                    return SwitchListTile(
+                      title: const Text('Modo Escuro'),
+                      secondary: Icon(
+                        themeProvider.isDarkMode
+                            ? Icons.dark_mode
+                            : Icons.light_mode,
+                        color: listIconColor,
+                      ),
+                      value: themeProvider.isDarkMode,
+                      onChanged: (bool value) {
+                        themeProvider.toggleTheme(value);
+                      },
+                    );
+                  },
+                ),
                 _buildDrawerItem(
                   context,
                   icon: Icons.account_balance,
                   title: 'Financeiro',
+                  iconColor: listIconColor,
                   onTap: () {
                     Navigator.pop(context);
                     // Navegar para financeiro
@@ -79,6 +105,7 @@ class AppDrawer extends StatelessWidget {
                   context,
                   icon: Icons.calculate,
                   title: 'Calculadora Jurídica',
+                  iconColor: listIconColor,
                   onTap: () {
                     Navigator.pop(context);
                     // Navegar para calculadora
@@ -88,6 +115,7 @@ class AppDrawer extends StatelessWidget {
                   context,
                   icon: Icons.book,
                   title: 'Jurisprudência',
+                  iconColor: listIconColor,
                   onTap: () {
                     Navigator.pop(context);
                     // Navegar para jurisprudência
@@ -98,18 +126,21 @@ class AppDrawer extends StatelessWidget {
                   context,
                   icon: Icons.settings,
                   title: 'Configurações',
+                  iconColor: listIconColor,
                   onTap: () {},
                 ),
                 _buildDrawerItem(
                   context,
                   icon: Icons.help,
                   title: 'Ajuda',
+                  iconColor: listIconColor,
                   onTap: () {},
                 ),
                 _buildDrawerItem(
                   context,
                   icon: Icons.info,
                   title: 'Sobre',
+                  iconColor: listIconColor,
                   onTap: () {
                     Navigator.pop(context);
                     _showSobre(context);
@@ -119,6 +150,7 @@ class AppDrawer extends StatelessWidget {
                   context,
                   icon: Icons.info,
                   title: 'Desenvolvedores',
+                  iconColor: listIconColor,
                   onTap: () {
                     Navigator.of(context).pop();
                     Navigator.of(context).pushNamed(AppRoutes.aboutScreen);
@@ -163,9 +195,12 @@ class AppDrawer extends StatelessWidget {
     required IconData icon,
     required String title,
     required VoidCallback onTap,
+    Color? iconColor,
   }) {
+    final color = iconColor ?? Theme.of(context).primaryColor;
+
     return ListTile(
-      leading: Icon(icon, color: Theme.of(context).primaryColor),
+      leading: Icon(icon, color: color),
       title: Text(title),
       onTap: onTap,
     );

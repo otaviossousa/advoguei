@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'utils/routes.dart';
 import 'utils/theme.dart';
+import 'providers/theme_provider.dart';
 
 void main() {
-  runApp(const AdvogueApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+      ],
+      child: const AdvogueApp(),
+    ),
+  );
 }
 
 class AdvogueApp extends StatelessWidget {
@@ -11,11 +21,20 @@ class AdvogueApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
-      initialRoute: AppRoutes.mainScreen,
-      routes: AppRoutes.routes,
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Advoguei',
+
+          themeMode: themeProvider.themeMode,
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+
+          initialRoute: AppRoutes.mainScreen,
+          routes: AppRoutes.routes,
+        );
+      },
     );
   }
 }
