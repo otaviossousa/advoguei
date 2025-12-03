@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../providers/auth_provider.dart';
 import '../widgets/form_widgets.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
   bool _obscurePassword = true;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -48,13 +50,43 @@ class _LoginScreenState extends State<LoginScreen> {
     return null;
   }
 
-  void _handleLogin() {
+  Future<void> _handleLogin() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
 
-    // Por enquanto, só navegar para a tela principal após validação
-    Navigator.pushReplacementNamed(context, '/');
+    setState(() {
+      _isLoading = true;
+    });
+
+    final success = await ref
+        .read(authProvider.notifier)
+        .login(
+          _emailController.text.trim(),
+          _passwordController.text,
+        );
+
+    setState(() {
+      _isLoading = false;
+    });
+
+    if (success) {
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, '/');
+      }
+    } else {
+      // Mostrar erro na SnackBar vermelha
+      final errorMessage = ref.read(authProvider.notifier).errorMessage;
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(errorMessage ?? 'Erro desconhecido'),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    }
   }
 
   @override
@@ -119,8 +151,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 // Botão de login
                 CustomButton(
-                  text: 'Entrar',
-                  onPressed: _handleLogin,
+                  text: _isLoading ? 'Entrando...' : 'Entrar',
+                  onPressed: _isLoading ? null : _handleLogin,
                 ),
                 const SizedBox(height: 24),
 

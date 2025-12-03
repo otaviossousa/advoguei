@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../providers/auth_provider.dart';
 import '../providers/theme_provider.dart';
 import '../utils/routes.dart';
 import '../utils/theme.dart';
@@ -158,15 +159,11 @@ class AppDrawer extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Dr. Advogueido',
+                        ref.watch(authProvider)?.name ?? 'Usuário',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.grey[800],
                         ),
-                      ),
-                      Text(
-                        'OAB/PI 123.456',
-                        style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                       ),
                     ],
                   ),

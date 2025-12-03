@@ -1,0 +1,34 @@
+{
+  "users": [
+    {
+      "email": "otavio@email.com",
+      "name": "Otavio Sousa",
+      "id": "otavio"
+    },
+    {
+      "email": "fernanda@email.com",
+      "name": "Fernanda Farias",
+      "id": "fernanda"
+    },
+    {
+      "email": "eline@email.com",
+      "name": "Eline Pacheco",
+      "id": "eline"
+    },
+    {
+      "email": "caua@email.com",
+      "name": "Caua Wesly",
+      "id": "caua"
+    },
+    {
+      "email": "marcel@email.com",
+      "name": "Marcel Moura",
+      "id": "marcel"
+    },
+    {
+      "email": "lucas@email.com",
+      "name": "Lucas Holanda",
+      "id": "lucas"
+    }
+  ]
+}

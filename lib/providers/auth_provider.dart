@@ -1,82 +1,38 @@
-import 'package:flutter/material.dart';
-// import '../services/auth_service.dart'; // Comentado temporariamente - service não existe ainda
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AuthProvider extends ChangeNotifier {
-  bool _isAuthenticated = false;
-  bool _isLoading = true;
-  String? _currentUser;
-  String? _errorMessage;
+import '../models/user_model.dart';
+import '../services/auth_service.dart';
 
-  bool get isAuthenticated => _isAuthenticated;
-  bool get isLoading => _isLoading;
-  String? get currentUser => _currentUser;
-  String? get errorMessage => _errorMessage;
+class AuthNotifier extends StateNotifier<User?> {
+  AuthNotifier() : super(null);
 
-  AuthProvider() {
-    _checkAuthStatus();
-  }
-
-  Future<void> _checkAuthStatus() async {
-    _isLoading = true;
-    notifyListeners();
-
-    try {
-      // _isAuthenticated = await AuthService.instance.isLoggedIn();
-      // if (_isAuthenticated) {
-      //   _currentUser = await AuthService.instance.getCurrentUser();
-      // }
-      _isAuthenticated = false; // Temporário - sempre não autenticado
-      _currentUser = null;
-    } catch (e) {
-      _isAuthenticated = false;
-      _currentUser = null;
-    }
-
-    _isLoading = false;
-    notifyListeners();
-  }
+  String? errorMessage;
 
   Future<bool> login(String email, String password) async {
-    _errorMessage = null;
-    notifyListeners();
-
     try {
-      // final success = await AuthService.instance.login(email, password);
-      final success = true; // Temporário - sempre sucesso
+      final user = await AuthService.validateUser(email);
 
-      if (success) {
-        _isAuthenticated = true;
-        _currentUser = email;
-        _errorMessage = null;
+      if (user != null) {
+        state = user;
+        errorMessage = null;
+        return true;
+      } else {
+        errorMessage = 'Acesso não autorizado';
+        return false;
       }
-      // else {
-      //   _errorMessage = 'Email ou senha incorretos';
-      // }
-
-      notifyListeners();
-      return success;
     } catch (e) {
-      _errorMessage = 'Erro ao fazer login. Tente novamente.';
-      notifyListeners();
+      errorMessage = 'Erro ao fazer login. Tente novamente.';
       return false;
     }
   }
 
-  Future<void> logout() async {
-    try {
-      // await AuthService.instance.logout();
-      _isAuthenticated = false;
-      _currentUser = null;
-      _errorMessage = null;
-      notifyListeners();
-    } catch (e) {
-      _errorMessage = 'Erro ao fazer logout';
-      notifyListeners();
-    }
-  }
-
-  void clearError() {
-    _errorMessage = null;
-    notifyListeners();
+  void logout() {
+    state = null;
+    errorMessage = null;
   }
 }
+
+// Riverpod para autenticação
+final authProvider = StateNotifierProvider<AuthNotifier, User?>((ref) {
+  return AuthNotifier();
+});
