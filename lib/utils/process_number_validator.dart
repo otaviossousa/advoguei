@@ -13,7 +13,7 @@ class ProcessNumberValidator {
 
     // Remover caracteres especiais e verificar se restou apenas dígitos
     final onlyDigits = numero.replaceAll(RegExp(r'[^0-9]'), '');
-    
+
     if (onlyDigits.isEmpty) {
       return 'O número do processo deve conter apenas dígitos';
     }
