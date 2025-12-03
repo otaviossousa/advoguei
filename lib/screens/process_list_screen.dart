@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../data/process_data.dart';
+import '../providers/process_provider.dart';
 import '../utils/routes.dart';
 import '../widgets/process_card.dart';
 
-class ProcessListScreen extends StatelessWidget {
+class ProcessListScreen extends ConsumerWidget {
   const ProcessListScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final processos = ProcessData.getAllProcessos();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final processos = ref.watch(processProvider);
+    final isLoading = ref.watch(processLoadingProvider);
 
     return Scaffold(
       body: Column(
@@ -32,7 +34,11 @@ class ProcessListScreen extends StatelessWidget {
           ),
           Expanded(
             // Lista de processos
-            child: processos.isEmpty
+            child: isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : processos.isEmpty
                 ? const Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
