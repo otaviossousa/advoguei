@@ -29,4 +29,34 @@ class Document {
         '${data.month.toString().padLeft(2, '0')}/'
         '${data.year}';
   }
+
+  // Converter para JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'nome': nome,
+      'tipo': tipo,
+      'data': data.toIso8601String(),
+      'clienteVinculado': clienteVinculado,
+      'processoVinculado': processoVinculado,
+      'observacao': observacao,
+    };
+  }
+
+  // Criar a partir de JSON
+  factory Document.fromJson(Map<String, dynamic> json) {
+    return Document(
+      id: json['id'] as String,
+      nome: json['nome'] as String,
+      tipo: json['tipo'] as String,
+      data: DateTime.parse(json['data'] as String),
+      clienteVinculado: json['clienteVinculado'] != null
+          ? List<String>.from(json['clienteVinculado'] as List<dynamic>)
+          : null,
+      processoVinculado: json['processoVinculado'] != null
+          ? List<String>.from(json['processoVinculado'] as List<dynamic>)
+          : null,
+      observacao: json['observacao'] as String?,
+    );
+  }
 }

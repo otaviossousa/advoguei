@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../data/document_data.dart';
 import '../models/document_model.dart';
+import '../providers/document_provider.dart';
 import '../widgets/document_card.dart';
 import 'document_detail_screen.dart';
 import 'document_form_screen.dart';
 
-class DocumentListScreen extends StatelessWidget {
+class DocumentListScreen extends ConsumerWidget {
   const DocumentListScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final documents = DocumentData.getAllDocuments();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final documents = ref.watch(documentProvider);
+    final isLoading = ref.watch(documentLoadingProvider);
 
     return Scaffold(
       body: Column(
@@ -37,8 +39,14 @@ class DocumentListScreen extends StatelessWidget {
 
           // Lista de documentos
           Expanded(
-            child: documents.isEmpty
-                ? const Center(child: Text('Nenhum documento encontrado'))
+            child: isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : documents.isEmpty
+                ? const Center(
+                    child: Text('Nenhum documento encontrado'),
+                  )
                 : ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     itemCount: documents.length,
@@ -70,7 +78,9 @@ class DocumentListScreen extends StatelessWidget {
             ),
           );
 
-          if (novoDocumento != null) {}
+          if (novoDocumento != null) {
+            // Documento já foi salvo através do provider
+          }
         },
         backgroundColor: Theme.of(context).primaryColor,
         child: const Icon(Icons.add, color: Colors.white),
