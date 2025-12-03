@@ -100,15 +100,16 @@ class ErrorHandlerService {
     return null;
   }
 
-  /// Valida moeda/valor monetário
+  /// Valida moeda/valor monetário (apenas números)
   static String? validateCurrency(String? value, String fieldName) {
     if (value == null || value.isEmpty) {
       return null; // Campo opcional
     }
 
-    final currencyRegex = RegExp(r'^R\$\s*[\d.,]+$');
+    // Aceita números com ponto ou vírgula como separador decimal
+    final currencyRegex = RegExp(r'^\d+([.,]\d{1,2})?$');
     if (!currencyRegex.hasMatch(value)) {
-      return 'Formato inválido de moeda. Use: R\$ 1.000,00';
+      return 'Use apenas números. Ex: 1500.50 ou 1500,50';
     }
 
     return null;
@@ -139,7 +140,7 @@ class ErrorHandlerService {
     );
   }
 
-  /// Log de erro (pode ser integrado com serviço de logging externo)
+  /// Log de erro 
   static void logError(String source, dynamic error, StackTrace? stackTrace) {
     debugPrint(
       'X [$source] Erro: $error\n'

@@ -162,8 +162,9 @@ class _ProcessFormScreenState extends ConsumerState<ProcessFormScreen> {
               const SizedBox(height: 16),
               CustomTextFormField(
                 label: 'Número do Processo *',
-                hint: 'Ex: 0800-100.14.2020.818.0043',
+                hint: 'Número com 20 dígitos',
                 controller: _numeroController,
+                keyboardType: TextInputType.number,
                 validator: (value) =>
                     ErrorHandlerService.validateProcessNumber(value),
               ),
@@ -182,6 +183,7 @@ class _ProcessFormScreenState extends ConsumerState<ProcessFormScreen> {
                 label: 'CPF/CNPJ do Cliente *',
                 hint: 'Ex: 123.456.789-00',
                 controller: _cpfCnpjController,
+                keyboardType: TextInputType.number,
                 validator: (value) =>
                     ErrorHandlerService.validateNumber(value, 'CPF/CNPJ'),
               ),
@@ -236,8 +238,9 @@ class _ProcessFormScreenState extends ConsumerState<ProcessFormScreen> {
               const SizedBox(height: 16),
               CustomTextFormField(
                 label: 'Valor da Causa',
-                hint: 'Ex: R\$ 15.000,00',
+                hint: 'Ex: 1500.50',
                 controller: _valorController,
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
                 validator: (value) =>
                     ErrorHandlerService.validateCurrency(value, 'Valor'),
               ),
