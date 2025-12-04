@@ -3,15 +3,36 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/auth_provider.dart';
 import '../providers/process_provider.dart';
+import '../providers/filter_provider.dart';
 import '../utils/routes.dart';
 import '../widgets/process_card.dart';
 
-class ProcessListScreen extends ConsumerWidget {
+class ProcessListScreen extends ConsumerStatefulWidget {
   const ProcessListScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final processos = ref.watch(processProvider);
+  ConsumerState<ProcessListScreen> createState() => _ProcessListScreenState();
+}
+
+class _ProcessListScreenState extends ConsumerState<ProcessListScreen> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    final initial = ref.read(filterProvider).processQuery;
+    _controller = TextEditingController(text: initial);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final processos = ref.watch(filteredProcessProvider);
     final isLoading = ref.watch(processLoadingProvider);
     final currentUser = ref.watch(authProvider);
     final isReadOnly = currentUser?.id == 'caua';
@@ -25,6 +46,10 @@ class ProcessListScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextField(
+                  controller: _controller,
+                  onChanged: (value) {
+                    ref.read(filterProvider.notifier).setProcessQuery(value);
+                  },
                   decoration: const InputDecoration(
                     hintText: 'Buscar ou filtrar processos...',
                     prefixIcon: Icon(Icons.search),

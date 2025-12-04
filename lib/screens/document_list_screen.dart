@@ -4,16 +4,37 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/document_model.dart';
 import '../providers/auth_provider.dart';
 import '../providers/document_provider.dart';
+import '../providers/filter_provider.dart';
 import '../widgets/document_card.dart';
 import 'document_detail_screen.dart';
 import 'document_form_screen.dart';
 
-class DocumentListScreen extends ConsumerWidget {
+class DocumentListScreen extends ConsumerStatefulWidget {
   const DocumentListScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final documents = ref.watch(documentProvider);
+  ConsumerState<DocumentListScreen> createState() => _DocumentListScreenState();
+}
+
+class _DocumentListScreenState extends ConsumerState<DocumentListScreen> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    final initial = ref.read(filterProvider).documentQuery;
+    _controller = TextEditingController(text: initial);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final documents = ref.watch(filteredDocumentProvider);
     final isLoading = ref.watch(documentLoadingProvider);
 
     final currentUser = ref.watch(authProvider);
@@ -28,6 +49,11 @@ class DocumentListScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextField(
+                  controller: _controller,
+                  onChanged: (value) {
+                    // atualizar filtro em tempo real
+                    ref.read(filterProvider.notifier).setDocumentQuery(value);
+                  },
                   decoration: const InputDecoration(
                     hintText: 'Buscar ou filtrar documentos...',
                     prefixIcon: Icon(Icons.search),

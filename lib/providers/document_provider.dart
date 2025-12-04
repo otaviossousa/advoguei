@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/document_model.dart';
 import '../services/storage_service.dart';
+import 'filter_provider.dart';
 
 class DocumentNotifier extends StateNotifier<List<Document>> {
   DocumentNotifier() : super([]) {
@@ -12,7 +13,7 @@ class DocumentNotifier extends StateNotifier<List<Document>> {
     try {
       await loadForUser(null);
     } catch (e) {
-      // Silently handle error - fallback data already provided by StorageService
+      // Tratar erro silenciosamente - dados de fallback já fornecidos por StorageService
     }
   }
 
@@ -77,4 +78,24 @@ final documentProvider =
 // Provider para loading state (simplificado)
 final documentLoadingProvider = Provider<bool>((ref) {
   return ref.watch(documentProvider).isEmpty;
+});
+
+/// Visualização filtrada de documentos de acordo com o estado atual de filtros.
+final filteredDocumentProvider = Provider<List<Document>>((ref) {
+  final docs = ref.watch(documentProvider);
+  final filter = ref.watch(filterProvider).documentQuery.trim().toLowerCase();
+  if (filter.isEmpty) return docs;
+
+  return docs.where((d) {
+    final nome = d.nome.toLowerCase();
+    final tipo = d.tipo.toLowerCase();
+    final cliente = (d.clienteVinculado ?? []).join(' ').toLowerCase();
+    final processo = (d.processoVinculado ?? []).join(' ').toLowerCase();
+    final obs = d.observacao?.toLowerCase() ?? '';
+    return nome.contains(filter) ||
+        tipo.contains(filter) ||
+        cliente.contains(filter) ||
+        processo.contains(filter) ||
+        obs.contains(filter);
+  }).toList();
 });
