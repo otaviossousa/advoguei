@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/document_model.dart';
+import '../providers/auth_provider.dart';
 import '../providers/document_provider.dart';
 import '../widgets/document_card.dart';
 import 'document_detail_screen.dart';
@@ -14,6 +15,9 @@ class DocumentListScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final documents = ref.watch(documentProvider);
     final isLoading = ref.watch(documentLoadingProvider);
+
+    final currentUser = ref.watch(authProvider);
+    final isReadOnly = currentUser?.id == 'caua';
 
     return Scaffold(
       body: Column(
@@ -69,22 +73,24 @@ class DocumentListScreen extends ConsumerWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final novoDocumento = await Navigator.push<Document>(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const DocumentFormScreen(),
-            ),
-          );
+      floatingActionButton: isReadOnly
+          ? null
+          : FloatingActionButton(
+              onPressed: () async {
+                final novoDocumento = await Navigator.push<Document>(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const DocumentFormScreen(),
+                  ),
+                );
 
-          if (novoDocumento != null) {
-            // Documento já foi salvo através do provider
-          }
-        },
-        backgroundColor: Theme.of(context).primaryColor,
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
+                if (novoDocumento != null) {
+                  // Documento já foi salvo através do provider
+                }
+              },
+              backgroundColor: Theme.of(context).primaryColor,
+              child: const Icon(Icons.add, color: Colors.white),
+            ),
     );
   }
 }

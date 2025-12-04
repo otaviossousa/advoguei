@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../data/document_data.dart';
 import '../models/process_model.dart';
+import '../providers/document_provider.dart';
 import '../screens/document_detail_screen.dart';
 import '../widgets/colored_badge.dart';
 
-class ProcessDetailScreen extends StatelessWidget {
+class ProcessDetailScreen extends ConsumerWidget {
   final Process processo;
 
   const ProcessDetailScreen({super.key, required this.processo});
 
   @override
-  Widget build(BuildContext context) {
-    final allDocs = DocumentData.getAllDocuments();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final allDocs = ref.watch(documentProvider);
     final personalDocs = allDocs
         .where(
           (d) =>

@@ -54,8 +54,18 @@ class StorageService {
       final file = await _getProcessesFile();
 
       if (!await file.exists()) {
-        // Retorna dados iniciais se arquivo não existe
-        return ProcessData.getAllProcessos();
+        // Se o arquivo não existe, inicializamos com os dados iniciais marcados como globais
+        final fixtures = ProcessData.getAllProcessos();
+        final jsonList = fixtures
+            .map(
+              (p) => _processToJson(p.copyWith(ownerId: null, isGlobal: true)),
+            )
+            .toList();
+        final json = jsonEncode({'processes': jsonList});
+        await file.writeAsString(json);
+        return fixtures
+            .map((p) => p.copyWith(ownerId: null, isGlobal: true))
+            .toList();
       }
 
       final contents = await file.readAsString();
@@ -66,8 +76,10 @@ class StorageService {
           .map((p) => Process.fromJson(p as Map<String, dynamic>))
           .toList();
     } catch (e) {
-      // Se erro ao carregar, retorna dados iniciais
-      return ProcessData.getAllProcessos();
+      // Se erro ao carregar, retorna dados iniciais marcados como globais
+      return ProcessData.getAllProcessos()
+          .map((p) => p.copyWith(ownerId: null, isGlobal: true))
+          .toList();
     }
   }
 
@@ -89,8 +101,18 @@ class StorageService {
       final file = await _getDocumentsFile();
 
       if (!await file.exists()) {
-        // Retorna dados iniciais se arquivo não existe
-        return DocumentData.getAllDocuments();
+        // Se o arquivo não existe, inicializamos com os dados iniciais marcados como globais
+        final fixtures = DocumentData.getAllDocuments();
+        final jsonList = fixtures
+            .map(
+              (d) => _documentToJson(d.copyWith(ownerId: null, isGlobal: true)),
+            )
+            .toList();
+        final json = jsonEncode({'documents': jsonList});
+        await file.writeAsString(json);
+        return fixtures
+            .map((d) => d.copyWith(ownerId: null, isGlobal: true))
+            .toList();
       }
 
       final contents = await file.readAsString();
@@ -101,8 +123,10 @@ class StorageService {
           .map((d) => Document.fromJson(d as Map<String, dynamic>))
           .toList();
     } catch (e) {
-      // Se erro ao carregar, retorna dados iniciais
-      return DocumentData.getAllDocuments();
+      // Se erro ao carregar, retorna dados iniciais marcados como globais
+      return DocumentData.getAllDocuments()
+          .map((d) => d.copyWith(ownerId: null, isGlobal: true))
+          .toList();
     }
   }
 
@@ -123,6 +147,8 @@ class StorageService {
       'vara': process.vara,
       'nomeJuiz': process.nomeJuiz,
       'observacoes': process.observacoes,
+      'ownerId': process.ownerId,
+      'isGlobal': process.isGlobal,
     };
   }
 
@@ -136,6 +162,8 @@ class StorageService {
       'clienteVinculado': document.clienteVinculado,
       'processoVinculado': document.processoVinculado,
       'observacao': document.observacao,
+      'ownerId': document.ownerId,
+      'isGlobal': document.isGlobal,
     };
   }
 }

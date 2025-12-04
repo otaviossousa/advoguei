@@ -4,6 +4,7 @@ import 'package:uuid/uuid.dart';
 
 import '../data/constants.dart';
 import '../models/process_model.dart';
+import '../providers/auth_provider.dart';
 import '../providers/process_provider.dart';
 import '../services/error_handler_service.dart';
 import '../widgets/form_widgets.dart';
@@ -116,6 +117,8 @@ class _ProcessFormScreenState extends ConsumerState<ProcessFormScreen> {
         observacoes: _observacoesController.text.trim().isEmpty
             ? null
             : _observacoesController.text.trim(),
+        ownerId: ref.read(authProvider)?.id,
+        isGlobal: false,
       );
 
       await ref.read(processProvider.notifier).addProcess(newProcess);

@@ -10,10 +10,21 @@ class ProcessNotifier extends StateNotifier<List<Process>> {
 
   Future<void> _initialize() async {
     try {
-      final processes = await StorageService.loadProcesses();
-      state = processes;
+      await loadForUser(null);
     } catch (e) {
       // Silently handle error - fallback data already provided by StorageService
+    }
+  }
+
+  Future<void> loadForUser(String? userId) async {
+    try {
+      final processes = await StorageService.loadProcesses();
+      state = processes
+          .where((p) => p.isGlobal || p.ownerId == userId)
+          .toList();
+    } catch (e) {
+      state = [];
+      rethrow;
     }
   }
 

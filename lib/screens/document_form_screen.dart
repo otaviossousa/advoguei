@@ -4,6 +4,7 @@ import 'package:uuid/uuid.dart';
 
 import '../data/constants.dart';
 import '../models/document_model.dart';
+import '../providers/auth_provider.dart';
 import '../providers/document_provider.dart';
 import '../providers/process_provider.dart';
 import '../services/error_handler_service.dart';
@@ -81,6 +82,8 @@ class _DocumentFormScreenState extends ConsumerState<DocumentFormScreen> {
         observacao: _observacaoController.text.trim().isEmpty
             ? null
             : _observacaoController.text.trim(),
+        ownerId: ref.read(authProvider)?.id,
+        isGlobal: false,
       );
 
       await ref.read(documentProvider.notifier).addDocument(newDocument);
