@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../providers/auth_provider.dart';
 import '../providers/process_provider.dart';
 import '../utils/routes.dart';
 import '../widgets/process_card.dart';
@@ -12,6 +13,8 @@ class ProcessListScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final processos = ref.watch(processProvider);
     final isLoading = ref.watch(processLoadingProvider);
+    final currentUser = ref.watch(authProvider);
+    final isReadOnly = currentUser?.id == 'caua';
 
     return Scaffold(
       body: Column(
@@ -77,13 +80,15 @@ class ProcessListScreen extends ConsumerWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, AppRoutes.processFormScreen);
-        },
-        backgroundColor: Theme.of(context).primaryColor,
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
+      floatingActionButton: isReadOnly
+          ? null
+          : FloatingActionButton(
+              onPressed: () {
+                Navigator.pushNamed(context, AppRoutes.processFormScreen);
+              },
+              backgroundColor: Theme.of(context).primaryColor,
+              child: const Icon(Icons.add, color: Colors.white),
+            ),
     );
   }
 }

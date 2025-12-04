@@ -12,6 +12,10 @@ class Document {
   // Detalhes Adicionais
   final String? observacao;
 
+  // Propriedade de ownership para controle por usuário
+  final String? ownerId;
+  final bool isGlobal;
+
   // Cliente, processo e observação são opcionais
   const Document({
     required this.id,
@@ -21,6 +25,8 @@ class Document {
     this.clienteVinculado,
     this.processoVinculado,
     this.observacao,
+    this.ownerId,
+    this.isGlobal = false,
   });
 
   // Método para formatar a data do documento
@@ -28,6 +34,31 @@ class Document {
     return '${data.day.toString().padLeft(2, '0')}/'
         '${data.month.toString().padLeft(2, '0')}/'
         '${data.year}';
+  }
+
+  // Criar uma cópia com campos modificados
+  Document copyWith({
+    String? id,
+    String? nome,
+    String? tipo,
+    DateTime? data,
+    List<String>? clienteVinculado,
+    List<String>? processoVinculado,
+    String? observacao,
+    String? ownerId,
+    bool? isGlobal,
+  }) {
+    return Document(
+      id: id ?? this.id,
+      nome: nome ?? this.nome,
+      tipo: tipo ?? this.tipo,
+      data: data ?? this.data,
+      clienteVinculado: clienteVinculado ?? this.clienteVinculado,
+      processoVinculado: processoVinculado ?? this.processoVinculado,
+      observacao: observacao ?? this.observacao,
+      ownerId: ownerId ?? this.ownerId,
+      isGlobal: isGlobal ?? this.isGlobal,
+    );
   }
 
   // Converter para JSON
@@ -40,6 +71,8 @@ class Document {
       'clienteVinculado': clienteVinculado,
       'processoVinculado': processoVinculado,
       'observacao': observacao,
+      'ownerId': ownerId,
+      'isGlobal': isGlobal,
     };
   }
 
@@ -57,6 +90,8 @@ class Document {
           ? List<String>.from(json['processoVinculado'] as List<dynamic>)
           : null,
       observacao: json['observacao'] as String?,
+      ownerId: json['ownerId'] as String?,
+      isGlobal: json['isGlobal'] == null ? false : json['isGlobal'] as bool,
     );
   }
 }

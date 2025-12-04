@@ -21,6 +21,10 @@ class Process {
   // Observações
   final String? observacoes;
 
+  // Propriedade de ownership para controle por usuário
+  final String? ownerId;
+  final bool isGlobal;
+
   // CPF/CNPJ, contato, descrição, valor da causa, comarca, vara, nome do juiz e observações são opcionais
   const Process({
     required this.id,
@@ -37,6 +41,8 @@ class Process {
     this.vara,
     this.nomeJuiz,
     this.observacoes,
+    this.ownerId,
+    this.isGlobal = false,
   });
 
   // Método para formatar a data de abertura
@@ -44,6 +50,45 @@ class Process {
     return '${dataAbertura.day.toString().padLeft(2, '0')}/'
         '${dataAbertura.month.toString().padLeft(2, '0')}/'
         '${dataAbertura.year}';
+  }
+
+  // Criar uma cópia com campos modificados
+  Process copyWith({
+    String? id,
+    String? numero,
+    String? cliente,
+    String? tipo,
+    String? status,
+    DateTime? dataAbertura,
+    String? cpfCnpjCliente,
+    String? contatoCliente,
+    String? descricao,
+    String? valorCausa,
+    String? comarca,
+    String? vara,
+    String? nomeJuiz,
+    String? observacoes,
+    String? ownerId,
+    bool? isGlobal,
+  }) {
+    return Process(
+      id: id ?? this.id,
+      numero: numero ?? this.numero,
+      cliente: cliente ?? this.cliente,
+      tipo: tipo ?? this.tipo,
+      status: status ?? this.status,
+      dataAbertura: dataAbertura ?? this.dataAbertura,
+      cpfCnpjCliente: cpfCnpjCliente ?? this.cpfCnpjCliente,
+      contatoCliente: contatoCliente ?? this.contatoCliente,
+      descricao: descricao ?? this.descricao,
+      valorCausa: valorCausa ?? this.valorCausa,
+      comarca: comarca ?? this.comarca,
+      vara: vara ?? this.vara,
+      nomeJuiz: nomeJuiz ?? this.nomeJuiz,
+      observacoes: observacoes ?? this.observacoes,
+      ownerId: ownerId ?? this.ownerId,
+      isGlobal: isGlobal ?? this.isGlobal,
+    );
   }
 
   // Converter para JSON
@@ -63,6 +108,8 @@ class Process {
       'vara': vara,
       'nomeJuiz': nomeJuiz,
       'observacoes': observacoes,
+      'ownerId': ownerId,
+      'isGlobal': isGlobal,
     };
   }
 
@@ -83,6 +130,8 @@ class Process {
       vara: json['vara'] as String?,
       nomeJuiz: json['nomeJuiz'] as String?,
       observacoes: json['observacoes'] as String?,
+      ownerId: json['ownerId'] as String?,
+      isGlobal: json['isGlobal'] == null ? false : json['isGlobal'] as bool,
     );
   }
 }

@@ -10,10 +10,21 @@ class DocumentNotifier extends StateNotifier<List<Document>> {
 
   Future<void> _initialize() async {
     try {
-      final documents = await StorageService.loadDocuments();
-      state = documents;
+      await loadForUser(null);
     } catch (e) {
       // Silently handle error - fallback data already provided by StorageService
+    }
+  }
+
+  Future<void> loadForUser(String? userId) async {
+    try {
+      final documents = await StorageService.loadDocuments();
+      state = documents
+          .where((d) => d.isGlobal || d.ownerId == userId)
+          .toList();
+    } catch (e) {
+      state = [];
+      rethrow;
     }
   }
 

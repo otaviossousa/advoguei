@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../data/process_data.dart';
 import '../models/document_model.dart';
 import '../models/process_model.dart';
+import '../providers/process_provider.dart';
 import '../screens/process_detail_screen.dart';
 import '../widgets/colored_badge.dart';
 
-class DocumentDetailScreen extends StatelessWidget {
+class DocumentDetailScreen extends ConsumerWidget {
   final Document documento;
 
   const DocumentDetailScreen({super.key, required this.documento});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final processes = ref.watch(processProvider);
     return Scaffold(
       appBar: AppBar(
         title: Text(documento.nome),
@@ -100,18 +102,17 @@ class DocumentDetailScreen extends StatelessWidget {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                final processoObj =
-                                    ProcessData.getAllProcessos().firstWhere(
-                                      (p) => p.numero == pn,
-                                      orElse: () => Process(
-                                        id: '',
-                                        numero: pn,
-                                        cliente: '',
-                                        tipo: '',
-                                        status: '',
-                                        dataAbertura: DateTime.now(),
-                                      ),
-                                    );
+                                final processoObj = processes.firstWhere(
+                                  (p) => p.numero == pn,
+                                  orElse: () => Process(
+                                    id: '',
+                                    numero: pn,
+                                    cliente: '',
+                                    tipo: '',
+                                    status: '',
+                                    dataAbertura: DateTime.now(),
+                                  ),
+                                );
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
