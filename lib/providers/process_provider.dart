@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/process_model.dart';
 import '../services/storage_service.dart';
+import 'filter_provider.dart';
 
 class ProcessNotifier extends StateNotifier<List<Process>> {
   ProcessNotifier() : super([]) {
@@ -12,7 +13,7 @@ class ProcessNotifier extends StateNotifier<List<Process>> {
     try {
       await loadForUser(null);
     } catch (e) {
-      // Silently handle error - fallback data already provided by StorageService
+      // Tratar erro silenciosamente - dados de fallback já fornecidos por StorageService
     }
   }
 
@@ -78,4 +79,31 @@ final processProvider = StateNotifierProvider<ProcessNotifier, List<Process>>((
 // Provider para loading state (simplificado)
 final processLoadingProvider = Provider<bool>((ref) {
   return ref.watch(processProvider).isEmpty;
+});
+
+/// Visualização filtrada de processos de acordo com o estado atual de filtros.
+final filteredProcessProvider = Provider<List<Process>>((ref) {
+  final procs = ref.watch(processProvider);
+  final filter = ref.watch(filterProvider).processQuery.trim().toLowerCase();
+  if (filter.isEmpty) return procs;
+
+  return procs.where((p) {
+    final numero = p.numero.toLowerCase();
+    final cliente = p.cliente.toLowerCase();
+    final tipo = p.tipo.toLowerCase();
+    final status = p.status.toLowerCase();
+    final descricao = p.descricao?.toLowerCase() ?? '';
+    final observacoes = p.observacoes?.toLowerCase() ?? '';
+    final cpf = p.cpfCnpjCliente?.toLowerCase() ?? '';
+    final contato = p.contatoCliente?.toLowerCase() ?? '';
+
+    return numero.contains(filter) ||
+        cliente.contains(filter) ||
+        tipo.contains(filter) ||
+        status.contains(filter) ||
+        descricao.contains(filter) ||
+        observacoes.contains(filter) ||
+        cpf.contains(filter) ||
+        contato.contains(filter);
+  }).toList();
 });
