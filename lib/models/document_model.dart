@@ -11,8 +11,6 @@ class Document {
 
   // Detalhes Adicionais
   final String? observacao;
-
-  // Propriedade de ownership para controle por usuário
   final String? ownerId;
   final bool isGlobal;
 

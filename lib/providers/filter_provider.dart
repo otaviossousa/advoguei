@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FilterState {
   final String documentQuery;
@@ -40,6 +43,25 @@ class FilterNotifier extends StateNotifier<FilterState> {
 
   void clear() {
     state = const FilterState();
+  }
+
+  Future<void> saveForUser(String userId) async {
+    final sp = await SharedPreferences.getInstance();
+    final jsonString = json.encode(state.toJson());
+    await sp.setString('saved_filters_$userId', jsonString);
+  }
+
+  Future<void> loadForUser(String userId) async {
+    final sp = await SharedPreferences.getInstance();
+    final jsonString = sp.getString('saved_filters_$userId');
+    if (jsonString == null) return;
+    try {
+      final Map<String, dynamic> data = json.decode(jsonString);
+      final restored = FilterState.fromJson(data);
+      state = restored;
+    } catch (e) {
+      // ignorar erro
+    }
   }
 }
 

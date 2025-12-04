@@ -1,7 +1,7 @@
 import '../models/document_model.dart';
 
 class DocumentData {
-  // Lista estática de documentos para demonstração (dados iniciais)
+  // Lista estática de documentos
   static final List<Document> _documents = [
     Document(
       id: '1',

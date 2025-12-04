@@ -24,6 +24,7 @@ class ColoredBadge extends StatelessWidget {
 
     return Container(
       padding: padding,
+      constraints: const BoxConstraints(minWidth: 0, maxWidth: 220),
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(12),
@@ -35,6 +36,8 @@ class ColoredBadge extends StatelessWidget {
           fontSize: 12,
           fontWeight: FontWeight.bold,
         ),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }

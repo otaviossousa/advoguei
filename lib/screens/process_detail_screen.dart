@@ -33,258 +33,270 @@ class ProcessDetailScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text('Processo ${processo.numero}'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: ListView(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    processo.cliente,
-                    style: const TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: ListView(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 14.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      processo.cliente,
+                      style: const TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
+                    const SizedBox(height: 6),
+                    if ((processo.cpfCnpjCliente ?? '').isNotEmpty)
+                      Row(
+                        children: [
+                          const Icon(Icons.badge, size: 16, color: Colors.grey),
+                          const SizedBox(width: 8),
+                          Text(
+                            processo.cpfCnpjCliente ?? '-',
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                    const SizedBox(height: 6),
+                    if ((processo.contatoCliente ?? '').isNotEmpty)
+                      Row(
+                        children: [
+                          const Icon(Icons.phone, size: 16, color: Colors.grey),
+                          const SizedBox(width: 8),
+                          Text(
+                            processo.contatoCliente ?? '-',
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              Card(
+                elevation: 2,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Informações do Processo',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      const Divider(),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              'SITUAÇÃO',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                          ColoredBadge(
+                            label: processo.status,
+                            kind: BadgeKind.status,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      _buildTwoColumn(
+                        'Número',
+                        processo.numero,
+                        'Tipo',
+                        processo.tipo,
+                      ),
+                      const SizedBox(height: 12),
+                      _buildTwoColumn(
+                        'Data de Abertura',
+                        processo.dataAberturaFormatada,
+                        'Valor',
+                        processo.valorCausa ?? '-',
+                      ),
+                      const SizedBox(height: 12),
+                      _buildTwoColumn(
+                        'Comarca',
+                        processo.comarca ?? '-',
+                        'Vara',
+                        processo.vara ?? '-',
+                      ),
+                      const SizedBox(height: 12),
+                      _buildKeyValueColumn('Nome do Juiz', processo.nomeJuiz),
+                      const SizedBox(height: 12),
+                      _buildKeyValueColumn('Descrição', processo.descricao),
+                      const SizedBox(height: 12),
+                      _buildKeyValueColumn('Observações', processo.observacoes),
+                    ],
                   ),
-                  const SizedBox(height: 6),
-                  if ((processo.cpfCnpjCliente ?? '').isNotEmpty)
-                    Row(
-                      children: [
-                        const Icon(Icons.badge, size: 16, color: Colors.grey),
-                        const SizedBox(width: 8),
-                        Text(
-                          processo.cpfCnpjCliente ?? '-',
-                          style: TextStyle(
-                            color: Colors.grey[700],
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
-                    ),
-                  const SizedBox(height: 6),
-                  if ((processo.contatoCliente ?? '').isNotEmpty)
-                    Row(
-                      children: [
-                        const Icon(Icons.phone, size: 16, color: Colors.grey),
-                        const SizedBox(width: 8),
-                        Text(
-                          processo.contatoCliente ?? '-',
-                          style: TextStyle(
-                            color: Colors.grey[700],
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
-                    ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-
-            Card(
-              elevation: 2,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(14),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Informações do Processo',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        ColoredBadge(
-                          label: processo.status,
-                          kind: BadgeKind.status,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    const Divider(),
-                    const SizedBox(height: 8),
-                    _buildTwoColumn(
-                      'Número',
-                      processo.numero,
-                      'Tipo',
-                      processo.tipo,
-                    ),
-                    const SizedBox(height: 12),
-                    _buildTwoColumn(
-                      'Data de Abertura',
-                      processo.dataAberturaFormatada,
-                      'Valor',
-                      processo.valorCausa ?? '-',
-                    ),
-                    const SizedBox(height: 12),
-                    _buildTwoColumn(
-                      'Comarca',
-                      processo.comarca ?? '-',
-                      'Vara',
-                      processo.vara ?? '-',
-                    ),
-                    const SizedBox(height: 12),
-                    _buildKeyValueColumn('Nome do Juiz', processo.nomeJuiz),
-                    const SizedBox(height: 12),
-                    _buildKeyValueColumn('Descrição', processo.descricao),
-                    const SizedBox(height: 12),
-                    _buildKeyValueColumn('Observações', processo.observacoes),
-                  ],
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
+              const SizedBox(height: 16),
 
-            Card(
-              elevation: 1,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Documentos Pessoais',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    const Divider(),
-                    const SizedBox(height: 8),
-                    ...personalDocs.map(
-                      (d) => ListTile(
-                        contentPadding: EdgeInsets.zero,
-                        leading: const Icon(
-                          Icons.insert_drive_file,
-                          color: Colors.blue,
+              Card(
+                elevation: 1,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Documentos Pessoais',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
                         ),
-                        title: Text(d.nome),
-                        subtitle: const Text('Anexado no cadastro'),
-                        trailing: Container(
-                          width: 36,
-                          height: 36,
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
-                            borderRadius: BorderRadius.circular(8),
+                      ),
+                      const SizedBox(height: 8),
+                      const Divider(),
+                      const SizedBox(height: 8),
+                      ...personalDocs.map(
+                        (d) => ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: const Icon(
+                            Icons.insert_drive_file,
+                            color: Colors.blue,
                           ),
-                          child: IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) =>
-                                      DocumentDetailScreen(documento: d),
-                                ),
-                              );
-                            },
-                            icon: const Icon(
-                              Icons.visibility,
-                              color: Colors.white,
-                              size: 18,
+                          title: Text(d.nome),
+                          subtitle: const Text('Anexado no cadastro'),
+                          trailing: Container(
+                            width: 36,
+                            height: 36,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) =>
+                                        DocumentDetailScreen(documento: d),
+                                  ),
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.visibility,
+                                color: Colors.white,
+                                size: 18,
+                              ),
                             ),
                           ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    DocumentDetailScreen(documento: d),
+                              ),
+                            );
+                          },
                         ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) =>
-                                  DocumentDetailScreen(documento: d),
-                            ),
-                          );
-                        },
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 12),
+              const SizedBox(height: 12),
 
-            Card(
-              elevation: 1,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Documentos do Processo',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    const Divider(),
-                    const SizedBox(height: 8),
-                    ...processDocs.map(
-                      (d) => ListTile(
-                        contentPadding: EdgeInsets.zero,
-                        leading: const Icon(
-                          Icons.description,
-                          color: Colors.orange,
+              Card(
+                elevation: 1,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Documentos do Processo',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
                         ),
-                        title: Text(d.nome),
-                        subtitle: const Text('Anexo do processo'),
-                        trailing: Container(
-                          width: 36,
-                          height: 36,
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).primaryColor,
-                            borderRadius: BorderRadius.circular(8),
+                      ),
+                      const SizedBox(height: 8),
+                      const Divider(),
+                      const SizedBox(height: 8),
+                      ...processDocs.map(
+                        (d) => ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: const Icon(
+                            Icons.description,
+                            color: Colors.orange,
                           ),
-                          child: IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) =>
-                                      DocumentDetailScreen(documento: d),
-                                ),
-                              );
-                            },
-                            icon: const Icon(
-                              Icons.visibility,
-                              color: Colors.white,
-                              size: 18,
+                          title: Text(d.nome),
+                          subtitle: const Text('Anexo do processo'),
+                          trailing: Container(
+                            width: 36,
+                            height: 36,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) =>
+                                        DocumentDetailScreen(documento: d),
+                                  ),
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.visibility,
+                                color: Colors.white,
+                                size: 18,
+                              ),
                             ),
                           ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    DocumentDetailScreen(documento: d),
+                              ),
+                            );
+                          },
                         ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) =>
-                                  DocumentDetailScreen(documento: d),
-                            ),
-                          );
-                        },
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 24),
-          ],
+              const SizedBox(height: 24),
+            ],
+          ),
         ),
       ),
     );

@@ -42,30 +42,14 @@ class ProcessNotifier extends StateNotifier<List<Process>> {
 
   /// Atualizar processo existente
   Future<void> updateProcess(Process process) async {
-    try {
-      final index = state.indexWhere((p) => p.id == process.id);
-      if (index == -1) {
-        throw Exception('Processo não encontrado');
-      }
-
-      final updatedList = [...state];
-      updatedList[index] = process;
-      await StorageService.saveProcesses(updatedList);
-      state = updatedList;
-    } catch (e) {
-      rethrow;
-    }
+    // Edição de processos foi desabilitada nesta versão.
+    throw UnsupportedError('Editar processo está desabilitado.');
   }
 
   /// Deletar processo
   Future<void> deleteProcess(String id) async {
-    try {
-      final updatedList = state.where((p) => p.id != id).toList();
-      await StorageService.saveProcesses(updatedList);
-      state = updatedList;
-    } catch (e) {
-      rethrow;
-    }
+    // Remoção de processos foi desabilitada nesta versão.
+    throw UnsupportedError('Excluir processo está desabilitado.');
   }
 }
 

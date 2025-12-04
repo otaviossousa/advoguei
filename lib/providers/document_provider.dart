@@ -42,30 +42,15 @@ class DocumentNotifier extends StateNotifier<List<Document>> {
 
   /// Atualizar documento existente
   Future<void> updateDocument(Document document) async {
-    try {
-      final index = state.indexWhere((d) => d.id == document.id);
-      if (index == -1) {
-        throw Exception('Documento não encontrado');
-      }
-
-      final updatedList = [...state];
-      updatedList[index] = document;
-      await StorageService.saveDocuments(updatedList);
-      state = updatedList;
-    } catch (e) {
-      rethrow;
-    }
+    // Edição de documentos foi desabilitada nesta versão.
+    // Se algum código tentar chamar esta função, lançamos um erro claro.
+    throw UnsupportedError('Editar documento está desabilitado.');
   }
 
   /// Deletar documento
   Future<void> deleteDocument(String id) async {
-    try {
-      final updatedList = state.where((d) => d.id != id).toList();
-      await StorageService.saveDocuments(updatedList);
-      state = updatedList;
-    } catch (e) {
-      rethrow;
-    }
+    // Remoção de documentos foi desabilitada nesta versão.
+    throw UnsupportedError('Excluir documento está desabilitado.');
   }
 }
 
@@ -75,7 +60,6 @@ final documentProvider =
       return DocumentNotifier();
     });
 
-// Provider para loading state (simplificado)
 final documentLoadingProvider = Provider<bool>((ref) {
   return ref.watch(documentProvider).isEmpty;
 });

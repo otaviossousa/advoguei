@@ -1,7 +1,7 @@
 import '../models/process_model.dart';
 
 class ProcessData {
-  // processos para demonstração (dados iniciais)
+  // processos para demonstração
   static final List<Process> _processos = [
     Process(
       id: '1',
@@ -85,7 +85,6 @@ class ProcessData {
     ),
   ];
 
-  // Método para obter todos os processos
   static List<Process> getAllProcessos() {
     return List.from(_processos);
   }
