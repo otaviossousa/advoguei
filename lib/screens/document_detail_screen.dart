@@ -5,7 +5,6 @@ import '../models/document_model.dart';
 import '../models/process_model.dart';
 import '../providers/process_provider.dart';
 import '../screens/process_detail_screen.dart';
-import '../widgets/colored_badge.dart';
 
 class DocumentDetailScreen extends ConsumerWidget {
   final Document documento;
@@ -19,7 +18,7 @@ class DocumentDetailScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(documento.nome),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,69 +64,67 @@ class DocumentDetailScreen extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Vinculação',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        ColoredBadge(
-                          label: documento.tipo,
-                          kind: BadgeKind.documentType,
-                        ),
-                      ],
+                    const Text(
+                      'Vinculos',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     const Divider(),
                     const SizedBox(height: 8),
-                    if (documento.clienteVinculado != null &&
-                        documento.clienteVinculado!.isNotEmpty)
-                      ...documento.clienteVinculado!.map(
-                        (c) => Column(
-                          children: [
-                            _buildKeyValue('Cliente', c),
-                            const SizedBox(height: 8),
-                          ],
-                        ),
-                      ),
-
-                    if (documento.processoVinculado != null &&
-                        documento.processoVinculado!.isNotEmpty)
-                      ...documento.processoVinculado!.map(
-                        (pn) => Column(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                final processoObj = processes.firstWhere(
-                                  (p) => p.numero == pn,
-                                  orElse: () => Process(
-                                    id: '',
-                                    numero: pn,
-                                    cliente: '',
-                                    tipo: '',
-                                    status: '',
-                                    dataAbertura: DateTime.now(),
-                                  ),
-                                );
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => ProcessDetailScreen(
-                                      processo: processoObj,
-                                    ),
-                                  ),
-                                );
-                              },
-                              child: _buildKeyValue('Processo', pn),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildKeyValue('Tipo', documento.tipo),
+                        const SizedBox(height: 8),
+                        if (documento.clienteVinculado != null &&
+                            documento.clienteVinculado!.isNotEmpty)
+                          ...documento.clienteVinculado!.map(
+                            (c) => Column(
+                              children: [
+                                _buildKeyValue('Cliente', c),
+                                const SizedBox(height: 8),
+                              ],
                             ),
-                            const SizedBox(height: 8),
-                          ],
-                        ),
-                      ),
+                          ),
+
+                        if (documento.processoVinculado != null &&
+                            documento.processoVinculado!.isNotEmpty)
+                          ...documento.processoVinculado!.map(
+                            (pn) => Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    final processoObj = processes.firstWhere(
+                                      (p) => p.numero == pn,
+                                      orElse: () => Process(
+                                        id: '',
+                                        numero: pn,
+                                        cliente: '',
+                                        tipo: '',
+                                        status: '',
+                                        dataAbertura: DateTime.now(),
+                                      ),
+                                    );
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => ProcessDetailScreen(
+                                          processo: processoObj,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: _buildKeyValue('Processo', pn),
+                                ),
+                                const SizedBox(height: 8),
+                              ],
+                            ),
+                          ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -155,7 +152,11 @@ class DocumentDetailScreen extends ConsumerWidget {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      Text(documento.observacao!),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 6),
+                        child: Text(documento.observacao!),
+                      ),
                     ],
                   ),
                 ),

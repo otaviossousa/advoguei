@@ -75,7 +75,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         Navigator.pushReplacementNamed(context, '/');
       }
     } else {
-      // Mostrar erro na SnackBar vermelha
       final errorMessage = ref.read(authProvider.notifier).errorMessage;
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

@@ -51,7 +51,6 @@ class _DocumentListScreenState extends ConsumerState<DocumentListScreen> {
                 TextField(
                   controller: _controller,
                   onChanged: (value) {
-                    // atualizar filtro em tempo real
                     ref.read(filterProvider.notifier).setDocumentQuery(value);
                   },
                   decoration: const InputDecoration(
@@ -111,7 +110,6 @@ class _DocumentListScreenState extends ConsumerState<DocumentListScreen> {
                 );
 
                 if (novoDocumento != null) {
-                  // Documento já foi salvo através do provider
                 }
               },
               backgroundColor: Theme.of(context).primaryColor,

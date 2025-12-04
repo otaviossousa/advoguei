@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers/auth_provider.dart';
+import '../providers/current_user_provider.dart';
 import '../providers/theme_provider.dart';
 import '../utils/routes.dart';
 import '../utils/theme.dart';
@@ -173,10 +174,13 @@ class AppDrawer extends ConsumerWidget {
                     Icons.logout,
                     color: Colors.grey[600],
                   ),
-                  onPressed: () {
+                  onPressed: () async {
                     Navigator.pop(context);
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
+                    final navigator = Navigator.of(context);
+                    // salvar e limpar estado de autenticação e filtros
+                    await ref.read(authProvider.notifier).logout();
+                    await ref.read(currentUserProvider.notifier).clear();
+                    navigator.pushNamedAndRemoveUntil(
                       AppRoutes.loginScreen,
                       (route) => false,
                     );
